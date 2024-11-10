@@ -1,16 +1,32 @@
 import React, { useState } from "react"
-import styles from "./App.module.scss"
+import "./App.scss"
+import Footer from "./components/ui/Footer"
+import NewTaskForm from "./components/ui/NewTaskForm"
+import TasksList from "./components/ui/TaskList"
+import mockTasks from "./mock/store"
+import TasksStore, { Task } from "./store"
+import { TaskStatus } from "./types/Task"
 
-type Props = {}
-
-const App = (props: Props) => {
-  const [counter, setCounter] = useState(0)
+const App = () => {
+  const [tasks, setTasks] = useState<Array<Task>>(mockTasks)
+  const [activeFilter, setActiveFilter] = useState<TaskStatus | "all">("all")
   return (
-    <div className={styles.app}>
-      {counter}
-
-      <button onClick={() => setCounter((prev) => prev + 1)}>+</button>
-    </div>
+    <TasksStore.Provider
+      value={{
+        setTasks,
+        tasks,
+        active: activeFilter,
+        setActive: setActiveFilter,
+      }}
+    >
+      <section className="todoapp">
+        <NewTaskForm />
+        <section className="main">
+          <TasksList />
+          <Footer />
+        </section>
+      </section>
+    </TasksStore.Provider>
   )
 }
 
