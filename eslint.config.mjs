@@ -1,11 +1,11 @@
+import { FlatCompat } from "@eslint/eslintrc"
+import js from "@eslint/js"
 import typescriptEslintEslintPlugin from "@typescript-eslint/eslint-plugin"
-import react from "eslint-plugin-react"
-import tsParser from "@typescript-eslint/parser"
 import typescriptEslint from "typescript-eslint"
+import tsParser from "@typescript-eslint/parser"
+import react from "eslint-plugin-react"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import js from "@eslint/js"
-import { FlatCompat } from "@eslint/eslintrc"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -14,6 +14,8 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
 })
+
+/** @type {import('eslint').Linter.Config[]} */
 
 export default [
   {
@@ -28,6 +30,10 @@ export default [
     },
 
     languageOptions: {
+      globals: {
+        eslint: false,
+      },
+
       parser: tsParser,
     },
   },

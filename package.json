@@ -47,8 +47,9 @@
     "dev": "npx webpack serve --env MODE=development --config-name react-ts-scss-cssModules-tailwind",
     "dev:build": "npx webpack serve --env MODE=production --config-name react-ts-scss-cssModules-tailwind",
     "build": "npx webpack --env MODE=prod --config-name react-ts-scss-cssModules-tailwind",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix"
+    "lint": "npx eslint . ",
+    "lint:fix": "npx eslint . --fix ",
+    "migrate linter": "npx @eslint/migrate-config .eslintrc"
   },
   "author": "",
   "license": "ISC",
