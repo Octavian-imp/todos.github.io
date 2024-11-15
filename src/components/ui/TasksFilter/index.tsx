@@ -8,11 +8,7 @@ const TasksFilter = () => {
   const [activeFilterId, setActiveFilterId] = useState(filterTodos[0].id)
   const { setActive: setActiveFilter } = useContext(TasksStore)
 
-  function onSelectFilter(
-    e: MouseEvent<HTMLButtonElement>,
-    id: string,
-    filterName: FilterName
-  ) {
+  function onSelectFilter(e: MouseEvent<HTMLButtonElement>, id: string, filterName: FilterName) {
     if (e.target instanceof HTMLElement) {
       e.target.classList.add(styles.selected)
       setActiveFilterId(id)

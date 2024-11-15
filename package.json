@@ -66,8 +66,9 @@
   },
   "lint-staged": {
     "*.{js,ts,ts,tsx}": [
-      "npm run lint",
-      "git add"
+      "npm run lint:fix",
+      "npx prettier --write ./src",
+      "git add ."
     ]
   }
 }

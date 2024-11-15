@@ -1,6 +1,5 @@
-import { RefObject, useEffect } from "react";
-import { useEvent } from "./useEvent";
-
+import { RefObject, useEffect } from "react"
+import { useEvent } from "./useEvent"
 
 type UseOutsideClickOptions = {
   elementRef: RefObject<HTMLElement>
@@ -10,7 +9,6 @@ type UseOutsideClickOptions = {
 }
 
 export function useOutsideClick({ elementRef, enabled = true, triggerRef, onOutsideClick }: UseOutsideClickOptions) {
-
   const handleOutsideClick = useEvent(onOutsideClick)
 
   useEffect(() => {
@@ -19,7 +17,7 @@ export function useOutsideClick({ elementRef, enabled = true, triggerRef, onOuts
     }
     const handleClick = (e: MouseEvent | TouchEvent) => {
       const { target } = e
-      
+
       if (!(e.target instanceof Node)) {
         return
       }
@@ -33,7 +31,7 @@ export function useOutsideClick({ elementRef, enabled = true, triggerRef, onOuts
         ignoreElements.push(triggerRef.current)
       }
 
-      if (!ignoreElements.some(el => el.contains(target as Node | null))) {
+      if (!ignoreElements.some((el) => el.contains(target as Node | null))) {
         handleOutsideClick(e)
       }
     }
@@ -45,5 +43,5 @@ export function useOutsideClick({ elementRef, enabled = true, triggerRef, onOuts
       document.addEventListener("touchstart", handleClick)
       document.addEventListener("mousedown", handleClick)
     }
-  }, [elementRef, triggerRef, enabled, handleOutsideClick]);
+  }, [elementRef, triggerRef, enabled, handleOutsideClick])
 }

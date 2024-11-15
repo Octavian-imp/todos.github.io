@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ["**/node_modules", "**/dist", "**/*.config.js"],
+    ignores: ["**/node_modules", "**/dist", "**/*.config*"],
   },
   ...compat.extends("plugin:prettier/recommended"),
   {
@@ -36,5 +36,6 @@ export default [
 
       parser: tsParser,
     },
+    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   },
 ]
