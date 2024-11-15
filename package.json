@@ -49,6 +49,7 @@
     "build": "npx webpack --env MODE=prod --config-name react-ts-scss-cssModules-tailwind",
     "lint": "npx eslint . ",
     "lint:fix": "npx eslint . --fix ",
+    "format": "npx prettier --write ./src",
     "migrate linter": "npx @eslint/migrate-config .eslintrc"
   },
   "author": "",
@@ -67,7 +68,7 @@
   "lint-staged": {
     "*.{js,ts,ts,tsx}": [
       "npm run lint:fix",
-      "npx prettier --write ./src",
+      "npm run format",
       "git add ."
     ]
   }
