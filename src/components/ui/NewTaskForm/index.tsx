@@ -28,7 +28,7 @@ const NewTaskForm = () => {
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}>todos</h1>
+      <h1 className={styles.title}>todo</h1>
       <input
         className={styles["new-todo"]}
         placeholder="What needs to be done?"
