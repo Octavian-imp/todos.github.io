@@ -1,6 +1,6 @@
 import cn from "clsx"
 import { formatDistanceToNow } from "date-fns"
-import React, { PropsWithChildren, useContext, useRef, useState } from "react"
+import React, { ChangeEvent, PropsWithChildren, useContext, useRef, useState } from "react"
 import { useOutsideClick } from "../../../libs/hooks/useOutsideClick"
 import TasksStore from "../../../store"
 import { TaskStatus } from "../../../types/Task"
@@ -12,17 +12,10 @@ type Props = {
   createdAt: Date
 }
 
-const Task = ({
-  status,
-  id,
-  children,
-  createdAt,
-}: PropsWithChildren<Props>) => {
+const Task = ({ status, id, children, createdAt }: PropsWithChildren<Props>) => {
   const { tasks, setTasks } = useContext(TasksStore)
   const [isEdit, setIsEdit] = useState(false)
-  const [editValue, setEditValue] = useState<string>(
-    tasks.find((task) => task.id === id)?.content || ""
-  )
+  const [editValue, setEditValue] = useState<string>(tasks.find((task) => task.id === id)?.content || "")
 
   const taskInputRef = useRef<HTMLInputElement>(null)
 
@@ -48,29 +41,40 @@ const Task = ({
     setTasks((prev) => prev.filter((task) => task.id !== id))
   }
 
+  function changeStatus(e: ChangeEvent<HTMLInputElement>) {
+    setTasks((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            status: e.target.checked ? "completed" : "active",
+          }
+        }
+        return item
+      })
+    )
+  }
+
   return (
-    <li
-      className={cn(
-        { [styles.editing]: isEdit },
-        { [styles.completed]: status === "completed" }
-      )}
-    >
+    <li className={cn({ [styles.editing]: isEdit }, { [styles.completed]: status === "completed" })}>
       <div className={styles.view}>
-        <input className={styles.toggle} type="checkbox" />
+        <input
+          className={styles.toggle}
+          type="checkbox"
+          defaultChecked={status === "completed"}
+          onChange={changeStatus}
+        />
         <label className={styles.label}>
           <span className={styles.description}>{children}</span>
           <span className={styles.created}>
-            {formatDistanceToNow(createdAt, { addSuffix: true })}
+            {formatDistanceToNow(createdAt, {
+              addSuffix: true,
+              includeSeconds: true,
+            })}
           </span>
         </label>
-        <button
-          className={cn(styles.icon, styles["icon-edit"])}
-          onClick={() => setIsEdit((prev) => !prev)}
-        ></button>
-        <button
-          className={cn(styles.icon, styles["icon-destroy"])}
-          onClick={onDestroy}
-        ></button>
+        <button className={cn(styles.icon, styles["icon-edit"])} onClick={() => setIsEdit((prev) => !prev)}></button>
+        <button className={cn(styles.icon, styles["icon-destroy"])} onClick={onDestroy}></button>
       </div>
       {isEdit && (
         <input

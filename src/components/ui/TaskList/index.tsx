@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import TasksStore, { Task } from "../../../store"
 import TaskItem from "../Task"
 import styles from "./index.module.scss"
 
 const TasksList = () => {
-  const { tasks: tasksContext, active: activeFilter } = useContext(TasksStore)
+  const { tasks: tasksContext, active: activeFilter, setTasks: setTasksContext } = useContext(TasksStore)
   const [tasksList, setTasksList] = useState<Task[]>(tasksContext)
+  const intervalRef = useRef<ReturnType<typeof setInterval>>()
 
   useEffect(() => {
     setTasksList(
@@ -19,15 +20,19 @@ const TasksList = () => {
     )
   }, [activeFilter, tasksContext])
 
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setTasksContext((prev) => [...prev])
+    }, 10_000)
+    return () => {
+      clearInterval(intervalRef.current)
+    }
+  }, [])
+
   return (
     <ul className={styles["todo-list"]}>
       {tasksList.map((task) => (
-        <TaskItem
-          key={task.id}
-          createdAt={task.createdAt}
-          status={task.status}
-          id={task.id}
-        >
+        <TaskItem key={task.id} createdAt={task.createdAt} status={task.status} id={task.id}>
           {task.content}
         </TaskItem>
       ))}

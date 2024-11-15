@@ -1,0 +1,7 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "eslint-plugin-react"],
+
+  "extends": ["plugin:prettier/recommended"],
+  "ignorePatterns": ["node_modules", "dist", "*.config.js"]
+}
