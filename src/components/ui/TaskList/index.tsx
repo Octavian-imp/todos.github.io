@@ -14,7 +14,7 @@ const TasksList = () => {
         if (activeFilter === "all") return true
         else {
           if (activeFilter === item.status) return true
-          else return false
+          else return falsed
         }
       })
     )
