@@ -5,10 +5,11 @@ import TasksStore from "../../../store"
 import styles from "./index.module.scss"
 
 const TasksFilter = () => {
-  const [activeFilterId, setActiveFilterId] = useState(filterTodos[0].id)
-  const { setActive: setActiveFilter } = useContext(TasksStore)
+  const { setActive: setActiveFilter, active } = useContext(TasksStore)
 
-  function onSelectFilter(e: MouseEvent<HTMLButtonElement>, id: string, filterName: FilterName) {
+  const [activeFilterId, setActiveFilterId] = useState(active)
+
+  function onSelectFilter(e: MouseEvent<HTMLButtonElement>, id: typeof active, filterName: FilterName) {
     if (e.target instanceof HTMLElement) {
       e.target.classList.add(styles.selected)
       setActiveFilterId(id)
@@ -25,8 +26,8 @@ const TasksFilter = () => {
       {filterTodos.map((filter) => (
         <li key={filter.id}>
           <button
-            onClick={(e) => onSelectFilter(e, filter.id, filter.name)}
-            className={cn({ [styles.selected]: filter.id === activeFilterId })}
+            onClick={(e) => onSelectFilter(e, filter.name, filter.name)}
+            className={cn({ [styles.selected]: filter.name === activeFilterId })}
           >
             {filter.name}
           </button>

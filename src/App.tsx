@@ -9,7 +9,7 @@ import { TaskStatus } from "./types/Task"
 
 const App = () => {
   const [tasks, setTasks] = useState<Array<Task>>(mockTasks)
-  const [activeFilter, setActiveFilter] = useState<TaskStatus | "all">("all")
+  const [activeFilter, setActiveFilter] = useState<Omit<TaskStatus, "pause"> | "all">("all")
   return (
     <TasksStore.Provider
       value={{

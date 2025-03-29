@@ -13,6 +13,11 @@
 .editing .view {
   display: none;
 }
+.view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 .toggle {
   text-align: center;
@@ -69,15 +74,17 @@
   text-decoration: line-through;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .icon {
-  position: absolute;
-  top: 0;
-  bottom: -3px;
   width: 30px;
   height: 40px;
   font-size: 34px;
   color: #cc9a9a;
-  margin: auto 0 11px;
   transition: color 0.2s ease-out;
   cursor: pointer;
 }
@@ -109,4 +116,42 @@
 
 .editing:last-child {
   margin-bottom: -1px;
+}
+
+.icon-start{
+  width: 1rem;
+  height: 1rem; 
+  background-color: #cc9a9a;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+  cursor: pointer;
+}
+
+.icon-stop {
+  $width: 3px;
+  $height: 13px;
+  width: calc($width * 3);
+  cursor: pointer;
+  height: $height;
+  position: relative;
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: $width;
+    height: $height;
+    background-color: #cc9a9a;
+  }
+  &::after {
+    right: 0;
+  }
+  &::before {
+    left: 0;
+  }
+  margin-right: 5px;
+}
+
+.duration {
+  font-size: 14px;
+  color: #4d4d4d;
 }

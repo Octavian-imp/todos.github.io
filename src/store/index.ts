@@ -5,8 +5,10 @@ import { TaskStatus } from "../types/Task"
 export type Task = {
   id: string
   status: TaskStatus
-  createdAt: Date
+  createdAt: Date | undefined
   content: string
+  completedAt: Date | undefined
+  durationMin: number | undefined
 }
 
 type TasksContext = {
@@ -15,8 +17,8 @@ type TasksContext = {
 }
 
 type ActiveFilterContext = {
-  active: TaskStatus | "all"
-  setActive: Dispatch<SetStateAction<TaskStatus | "all">>
+  active: Omit<TaskStatus, "pause"> | "all"
+  setActive: Dispatch<SetStateAction<Omit<TaskStatus, "pause"> | "all">>
 }
 
 export const TasksStore = createContext<TasksContext & ActiveFilterContext>({

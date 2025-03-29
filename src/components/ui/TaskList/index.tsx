@@ -32,9 +32,15 @@ const TasksList = () => {
   return (
     <ul className={styles["todo-list"]}>
       {tasksList.map((task) => (
-        <TaskItem key={task.id} createdAt={task.createdAt} status={task.status} id={task.id}>
-          {task.content}
-        </TaskItem>
+        <TaskItem
+          key={task.id}
+          completedAt={task.completedAt}
+          durationMin={task.durationMin}
+          title={task.content}
+          createdAt={task.createdAt}
+          status={task.status}
+          id={task.id}
+        />
       ))}
     </ul>
   )

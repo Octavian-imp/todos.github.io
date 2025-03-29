@@ -1,0 +1,10 @@
+{
+  "globals": {
+    "eslint": false
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "eslint-plugin-react"],
+  "prettier/prettier": ["error", { "endOfLine": "auto" }],
+  "extends": ["plugin:prettier/recommended"],
+  "ignorePatterns": ["node_modules", "dist", "*.config.js"]
+}

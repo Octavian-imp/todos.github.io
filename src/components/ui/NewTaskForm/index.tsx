@@ -5,6 +5,7 @@ import styles from "./index.module.scss"
 const NewTaskForm = () => {
   const { setTasks } = useContext(TasksStore)
   const [value, setValue] = useState("")
+  const [durationValue, setDurationValue] = useState<number>()
 
   function checkAddNewTask(e: KeyboardEvent<HTMLInputElement>) {
     if (e.target instanceof HTMLInputElement) {
@@ -17,6 +18,8 @@ const NewTaskForm = () => {
               createdAt: new Date(),
               status: "active",
               content: value,
+              completedAt: undefined,
+              durationMin: durationValue,
             },
             ...prev,
           ]
@@ -36,6 +39,13 @@ const NewTaskForm = () => {
         onKeyDown={checkAddNewTask}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+      />
+      <input
+        className={styles.duration}
+        placeholder="Duration in minutes"
+        type="number"
+        value={durationValue}
+        onChange={(e) => setDurationValue(Number(e.target.value))}
       />
     </header>
   )
