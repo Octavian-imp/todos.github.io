@@ -22,6 +22,11 @@ const NewTaskForm = () => {
               durationMin: durationValue,
             },
 
+
+
+
+
+            
             ...prev,
           ]
         })
