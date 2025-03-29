@@ -21,6 +21,7 @@ const NewTaskForm = () => {
               completedAt: undefined,
               durationMin: durationValue,
             },
+
             ...prev,
           ]
         })
