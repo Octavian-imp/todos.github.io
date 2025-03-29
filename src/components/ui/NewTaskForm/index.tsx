@@ -13,7 +13,6 @@ const NewTaskForm = () => {
       if (e.key === "Enter") {
         setTasks((prev) => {
           return [
-            
             {
               id: (Math.random() * 1000).toString(36),
               createdAt: new Date(),
@@ -22,11 +21,6 @@ const NewTaskForm = () => {
               completedAt: undefined,
               durationMin: durationValue,
             },
-
-
-
-
-
 
             ...prev,
           ]

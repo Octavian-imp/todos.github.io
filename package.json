@@ -50,7 +50,8 @@
     "lint": "npx eslint . ",
     "lint:fix": "npx eslint . --fix ",
     "format": "npx prettier --write ./src",
-    "migrate linter": "npx @eslint/migrate-config .eslintrc"
+    "migrate linter": "npx @eslint/migrate-config .eslintrc",
+    "prepare": "husky"
   },
   "author": "",
   "license": "ISC",
