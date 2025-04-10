@@ -1,15 +1,17 @@
 import cn from "clsx"
-import React, { MouseEvent, useContext, useState } from "react"
+import React, { MouseEvent, useState } from "react"
 import filterTodos, { FilterName } from "../../../mock/filters"
-import TasksStore from "../../../store"
+import { setFilter } from "../../../store/optionReducer"
+import { useAppDispatch, useAppSelector } from "../../../store/reduxStore"
 import styles from "./index.module.scss"
 
 const TasksFilter = () => {
-  const { setActive: setActiveFilter, active } = useContext(TasksStore)
+  const dispatch = useAppDispatch()
+  const activeFilter = useAppSelector((state) => state.options.activeFilter)
 
-  const [activeFilterId, setActiveFilterId] = useState(active)
+  const [activeFilterId, setActiveFilterId] = useState(activeFilter)
 
-  function onSelectFilter(e: MouseEvent<HTMLButtonElement>, id: typeof active, filterName: FilterName) {
+  function onSelectFilter(e: MouseEvent<HTMLButtonElement>, id: typeof activeFilter, filterName: FilterName) {
     if (e.target instanceof HTMLElement) {
       e.target.classList.add(styles.selected)
       setActiveFilterId(id)
@@ -18,7 +20,7 @@ const TasksFilter = () => {
   }
 
   function filterTasks(filterName: FilterName) {
-    setActiveFilter(filterName)
+    dispatch(setFilter(filterName))
   }
 
   return (

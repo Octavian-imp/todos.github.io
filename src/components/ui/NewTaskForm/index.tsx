@@ -1,31 +1,31 @@
-import React, { KeyboardEvent, useContext, useState } from "react"
-import TasksStore from "../../../store"
+import React, { KeyboardEvent, useState } from "react"
+import { useAppDispatch } from "../../../store/reduxStore"
+import { addTask } from "../../../store/taskReducer"
 import styles from "./index.module.scss"
 
 const NewTaskForm = () => {
-  const { setTasks } = useContext(TasksStore)
+  const dispatch = useAppDispatch()
+
   const [value, setValue] = useState("")
   const [durationValue, setDurationValue] = useState<number>()
 
   function checkAddNewTask(e: KeyboardEvent<HTMLInputElement>) {
-    if (e.target instanceof HTMLInputElement) {
-      const { value } = e.target
-      if (e.key === "Enter") {
-        setTasks((prev) => {
-          return [
-            {
+    if (typeof durationValue === "number") {
+      if (e.target instanceof HTMLInputElement) {
+        const { value } = e.target
+        if (e.key === "Enter") {
+          dispatch(
+            addTask({
               id: (Math.random() * 1000).toString(36),
-              createdAt: new Date(),
+              createdAt: new Date().getTime(),
               status: "active",
               content: value,
-              completedAt: undefined,
               durationMin: durationValue,
-            },
-
-            ...prev,
-          ]
-        })
-        setValue("")
+              currentDuration: undefined,
+            })
+          )
+          setValue("")
+        }
       }
     }
   }

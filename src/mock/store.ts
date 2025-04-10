@@ -1,47 +1,48 @@
-import { Task } from "../store"
+import { Task } from "../store/taskReducer"
+
 
 const tasks: Array<Omit<Task, "id">> = [
   {
     status: "active",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: undefined,
+    currentDuration: 0,
     durationMin: 1,
   },
   {
     status: "active",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: new Date(2024, 1, 1, 1, 1, 15),
     durationMin: 0.1,
+    currentDuration: 0,
   },
   {
     status: "completed",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: new Date(2024, 1, 2, 1, 1, 1),
     durationMin: 10,
+    currentDuration: 0,
   },
   {
     status: "completed",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: new Date(2024, 1, 1, 1, 3, 1),
     durationMin: 10,
+    currentDuration: 0,
   },
   {
     status: "completed",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: new Date(2024, 1, 1, 1, 15, 1),
     durationMin: 10,
+    currentDuration: 0,
   },
   {
     status: "completed",
-    createdAt: new Date(2024, 1, 1, 1, 1, 1),
+    createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    completedAt: new Date(2024, 2, 1, 1, 1, 1),
     durationMin: 10,
+    currentDuration: 0,
   },
 ]
 

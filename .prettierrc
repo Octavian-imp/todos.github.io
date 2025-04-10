@@ -1,7 +1,7 @@
 {
   "singleQuote": false,
   "trailingComma": "es5",
-  "endOfLine": "lf",
+  "endOfLine": "crlf",
   "printWidth": 120,
   "semi": false
 }

@@ -4,7 +4,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "eslint-plugin-react"],
-  "prettier/prettier": ["error", { "endOfLine": "auto" }],
+  "prettier/prettier": ["error", { "endOfLine": "auto", "trailingComma": "none" }],
   "extends": ["plugin:prettier/recommended"],
   "ignorePatterns": ["node_modules", "dist", "*.config.js"]
 }

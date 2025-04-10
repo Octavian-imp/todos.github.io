@@ -1,35 +1,20 @@
-import React, { useContext, useEffect, useState } from "react"
-import TasksStore from "../../../store"
+import React from "react"
+import { useAppDispatch, useAppSelector } from "../../../store/reduxStore"
 import TasksFilter from "../TasksFilter"
 import styles from "./index.module.scss"
+import { clearCompletedTasks } from "../../../store/taskReducer"
 
 const Footer = () => {
-  const { setTasks, tasks } = useContext(TasksStore)
-  const [counterItems, setCounterItems] = useState(
-    tasks.reduce((acc, curr) => {
-      if (curr.status === "active") return acc + 1
-      else return acc
-    }, 0)
+  const dispatch = useAppDispatch()
+  const counterActive = useAppSelector((state) =>
+    state.tasks.reduce((acc, task) => acc + (task.status === "active" ? 1 : 0), 0)
   )
-
-  useEffect(() => {
-    setCounterItems(
-      tasks.reduce((acc, curr) => {
-        if (curr.status === "active") return acc + 1
-        else return acc
-      }, 0)
-    )
-  }, [tasks])
-
-  function clearCompleted() {
-    setTasks((prev) => prev.filter((task) => task.status !== "completed"))
-  }
 
   return (
     <footer className={styles.footer}>
-      <span className={styles["todo-count"]}>{counterItems} items left</span>
+      <span className={styles["todo-count"]}>{counterActive} items left</span>
       <TasksFilter />
-      <button className={styles["clear-completed"]} onClick={clearCompleted}>
+      <button className={styles["clear-completed"]} onClick={() => dispatch(clearCompletedTasks())}>
         Clear completed
       </button>
     </footer>

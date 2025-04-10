@@ -1,24 +1,14 @@
-import React, { useState } from "react"
+import React from "react"
+import { Provider } from "react-redux"
 import "./App.scss"
 import Footer from "./components/ui/Footer"
 import NewTaskForm from "./components/ui/NewTaskForm"
 import TasksList from "./components/ui/TaskList"
-import mockTasks from "./mock/store"
-import TasksStore, { Task } from "./store"
-import { TaskStatus } from "./types/Task"
+import { reduxStore } from "./store/reduxStore"
 
 const App = () => {
-  const [tasks, setTasks] = useState<Array<Task>>(mockTasks)
-  const [activeFilter, setActiveFilter] = useState<Omit<TaskStatus, "pause"> | "all">("all")
   return (
-    <TasksStore.Provider
-      value={{
-        setTasks,
-        tasks,
-        active: activeFilter,
-        setActive: setActiveFilter,
-      }}
-    >
+    <Provider store={reduxStore}>
       <section className="todoapp">
         <NewTaskForm />
         <section className="main">
@@ -26,7 +16,7 @@ const App = () => {
           <Footer />
         </section>
       </section>
-    </TasksStore.Provider>
+    </Provider>
   )
 }
 

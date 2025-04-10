@@ -1,46 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
-import TasksStore, { Task } from "../../../store"
+import React from "react"
+import { createAppSelector, RootState, useAppSelector } from "../../../store/reduxStore"
 import TaskItem from "../Task"
 import styles from "./index.module.scss"
 
+const selectFilterTodo = createAppSelector(
+  (state: RootState) => state.options.activeFilter,
+  (state: RootState) => state.tasks,
+  (activeFilter, tasks) => tasks.filter((item) => (activeFilter === "all" ? true : item.status === activeFilter))
+)
+
 const TasksList = () => {
-  const { tasks: tasksContext, active: activeFilter, setTasks: setTasksContext } = useContext(TasksStore)
-  const [tasksList, setTasksList] = useState<Task[]>(tasksContext)
-  const intervalRef = useRef<ReturnType<typeof setInterval>>()
-
-  useEffect(() => {
-    setTasksList(
-      tasksContext.filter((item) => {
-        if (activeFilter === "all") return true
-        else {
-          if (activeFilter === item.status) return true
-          else return false
-        }
-      })
-    )
-  }, [activeFilter, tasksContext])
-
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setTasksContext((prev) => [...prev])
-    }, 10_000)
-    return () => {
-      clearInterval(intervalRef.current)
-    }
-  }, [])
+  const taskStore = useAppSelector((state) => selectFilterTodo(state))
 
   return (
     <ul className={styles["todo-list"]}>
-      {tasksList.map((task) => (
-        <TaskItem
-          key={task.id}
-          completedAt={task.completedAt}
-          durationMin={task.durationMin}
-          title={task.content}
-          createdAt={task.createdAt}
-          status={task.status}
-          id={task.id}
-        />
+      {taskStore.map((task) => (
+        <TaskItem key={task.id} currentTime={task.currentDuration} title={task.content} {...task}  />
       ))}
     </ul>
   )
