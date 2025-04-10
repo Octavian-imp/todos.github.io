@@ -1,6 +1,5 @@
 import { Task } from "../store/taskReducer"
 
-
 const tasks: Array<Omit<Task, "id">> = [
   {
     status: "active",

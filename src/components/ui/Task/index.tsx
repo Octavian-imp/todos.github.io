@@ -84,7 +84,6 @@ const Task = ({ status, durationMin, id, intervalRef: storeIntervalRef, currentT
               onDestroy={onDestroy}
               durationMin={durationMin}
               currentTime={currentTime}
-
             />
           )}
         </div>
@@ -112,7 +111,6 @@ type DisabledTimerProps = {
 }
 
 Task.disabledTimer = ({ status, setIsEdit, onStart, onDestroy, durationMin, currentTime }: DisabledTimerProps) => {
-
   return (
     <>
       <span className={styles.duration}>{currentTime > 0 ? currentTime : durationMin * 60} sec</span>

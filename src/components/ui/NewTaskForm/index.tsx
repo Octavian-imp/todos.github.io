@@ -21,7 +21,7 @@ const NewTaskForm = () => {
               status: "active",
               content: value,
               durationMin: durationValue,
-              currentDuration: undefined,
+              currentDuration: 0,
             })
           )
           setValue("")

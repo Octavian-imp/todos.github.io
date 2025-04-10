@@ -20,4 +20,3 @@ const optionsSlice = createSlice({
 export const { setFilter } = optionsSlice.actions
 
 export default optionsSlice.reducer
-

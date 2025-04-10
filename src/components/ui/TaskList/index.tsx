@@ -15,7 +15,7 @@ const TasksList = () => {
   return (
     <ul className={styles["todo-list"]}>
       {taskStore.map((task) => (
-        <TaskItem key={task.id} currentTime={task.currentDuration} title={task.content} {...task}  />
+        <TaskItem key={task.id} currentTime={task.currentDuration} title={task.content} {...task} />
       ))}
     </ul>
   )
