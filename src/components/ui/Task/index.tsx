@@ -67,7 +67,7 @@ const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime
   useOutsideClick({
     elementRef: taskInputRef,
     enabled: isEdit,
-    onOutsideClick: onSave,
+    onOutsideClick: () => setIsEdit(false),
   })
 
   function onSave() {
@@ -103,6 +103,7 @@ const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime
           className={styles.edit}
           value={editValue}
           onChange={(e) => setEditValue(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && onSave()}
           ref={taskInputRef}
         />
       )}
