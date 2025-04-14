@@ -1,25 +1,26 @@
 import cn from "clsx"
-import React, { Dispatch, SetStateAction, useRef, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { useOutsideClick } from "../../../libs/hooks/useOutsideClick"
 import { useAppDispatch } from "../../../store/reduxStore"
 import { addTimeTask, changeTaskStatus, editTask, removeTask, setIntervalTaskRef } from "../../../store/taskReducer"
 import { TaskStatus } from "../../../types/Task"
 import styles from "./index.module.scss"
+import { lightFormat } from "date-fns"
 
 type Props = {
   status: TaskStatus
   id: string
   currentTime: number
   title: string
-  durationMin: number
+  duration: number
   intervalRef?: NodeJS.Timeout
 }
 
-const Task = ({ status, durationMin, id, intervalRef: storeIntervalRef, currentTime, title }: Props) => {
+const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime, title }: Props) => {
   const dispatch = useAppDispatch()
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [editValue, setEditValue] = useState(title)
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [editValue, setEditValue] = useState<string>(title)
   const [isRunning, setIsRunning] = useState<boolean>(storeIntervalRef ? true : false)
   const intervalRef = useRef<NodeJS.Timeout>()
 
@@ -27,6 +28,14 @@ const Task = ({ status, durationMin, id, intervalRef: storeIntervalRef, currentT
     // смена статуса
     dispatch(changeTaskStatus({ id, status: status === "active" ? "completed" : "active" }))
   }
+
+  useEffect(() => {
+    // отключаем таймер и меняем статус если время закончилось
+    if (duration === currentTime) {
+      changeStatus()
+      onStop()
+    }
+  }, [currentTime])
 
   function onStart() {
     setIsRunning(true)
@@ -82,7 +91,7 @@ const Task = ({ status, durationMin, id, intervalRef: storeIntervalRef, currentT
               setIsEdit={setIsEdit}
               onStart={onStart}
               onDestroy={onDestroy}
-              durationMin={durationMin}
+              duration={duration}
               currentTime={currentTime}
             />
           )}
@@ -106,14 +115,16 @@ type DisabledTimerProps = {
   setIsEdit: Dispatch<SetStateAction<boolean>>
   onStart: () => void
   onDestroy: () => void
-  durationMin: number
+  duration: number
   currentTime: number
 }
 
-Task.disabledTimer = ({ status, setIsEdit, onStart, onDestroy, durationMin, currentTime }: DisabledTimerProps) => {
+Task.disabledTimer = ({ status, setIsEdit, onStart, onDestroy, duration, currentTime }: DisabledTimerProps) => {
   return (
     <>
-      <span className={styles.duration}>{currentTime > 0 ? currentTime : durationMin * 60} sec</span>
+      <span className={styles.duration}>
+        {currentTime > 0 ? lightFormat(currentTime, "mm:ss") : lightFormat(duration, "mm:ss")}
+      </span>
       {status === "active" ? <button type="button" className={styles["icon-start"]} onClick={onStart}></button> : null}
       <button className={cn(styles.icon, styles["icon-edit"])} onClick={() => setIsEdit((prev) => !prev)}></button>
       <button className={cn(styles.icon, styles["icon-destroy"])} onClick={onDestroy}></button>
@@ -129,7 +140,7 @@ type ActiveTimerProps = {
 Task.activeTimer = function ({ currentTime, onStop }: ActiveTimerProps) {
   return (
     <>
-      <span className={styles.duration}>{currentTime} secs</span>
+      <span className={styles.duration}>{lightFormat(currentTime, "mm:ss")}</span>
       <button onClick={onStop} className={styles["icon-stop"]}></button>
     </>
   )

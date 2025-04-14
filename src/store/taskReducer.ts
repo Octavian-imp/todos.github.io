@@ -7,7 +7,7 @@ export type Task = {
   status: TaskStatus
   createdAt: number
   content: string
-  durationMin: number
+  duration: number
   currentDuration: number
   intervalRef?: NodeJS.Timeout
 }
@@ -19,12 +19,20 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     add(state, action: { payload: Task }) {
-      return [...state, action.payload]
+      return [action.payload, ...state]
     },
     addTime(state, action: { payload: string }) {
-      return state.map((task) =>
-        task.id === action.payload ? { ...task, currentDuration: task.currentDuration + 1 } : task
-      )
+      return state.map((task) => {
+        const second = 1000
+
+        return task.id === action.payload
+          ? {
+              ...task,
+              currentDuration: task.currentDuration + second,
+              status: task.duration === task.currentDuration ? "completed" : "active",
+            }
+          : task
+      })
     },
     stop(state, action: { payload: { id: string; currentTime: number } }) {
       return state.map((task) =>
