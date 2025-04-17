@@ -1,11 +1,11 @@
 import cn from "clsx"
+import { lightFormat } from "date-fns"
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { useOutsideClick } from "../../../libs/hooks/useOutsideClick"
 import { useAppDispatch } from "../../../store/reduxStore"
-import { addTimeTask, changeTaskStatus, editTask, removeTask, setIntervalTaskRef } from "../../../store/taskReducer"
+import { addTimeTask, removeTask, setIntervalTaskRef, updateTask } from "../../../store/taskReducer"
 import { TaskStatus } from "../../../types/Task"
 import styles from "./index.module.scss"
-import { lightFormat } from "date-fns"
 
 type Props = {
   status: TaskStatus
@@ -24,14 +24,24 @@ const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime
   const [isRunning, setIsRunning] = useState<boolean>(storeIntervalRef ? true : false)
   const intervalRef = useRef<NodeJS.Timeout>()
 
+  function clearIntervals() {
+    if (typeof intervalRef.current === "undefined") {
+      clearInterval(storeIntervalRef)
+    } else {
+      clearInterval(intervalRef.current)
+    }
+    dispatch(setIntervalTaskRef({ id, intervalRef: undefined }))
+  }
+
   function changeStatus() {
     // смена статуса
-    dispatch(changeTaskStatus({ id, status: status === "active" ? "completed" : "active" }))
+    dispatch(updateTask({ id, status: "completed", currentDuration: currentTime }))
+    onStop()
   }
 
   useEffect(() => {
     // отключаем таймер и меняем статус если время закончилось
-    if (duration === currentTime) {
+    if (currentTime === 0) {
       changeStatus()
       onStop()
     }
@@ -49,12 +59,7 @@ const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime
   function onStop() {
     // остановка таймера
     setIsRunning(false)
-    if (typeof intervalRef.current === "undefined") {
-      clearInterval(storeIntervalRef)
-    } else {
-      clearInterval(intervalRef.current)
-    }
-    dispatch(setIntervalTaskRef({ id, intervalRef: undefined }))
+    clearIntervals()
   }
 
   function onDestroy() {
@@ -72,7 +77,7 @@ const Task = ({ status, duration, id, intervalRef: storeIntervalRef, currentTime
 
   function onSave() {
     setIsEdit(false)
-    dispatch(editTask({ id, value: taskInputRef.current?.value.trim() || "" }))
+    dispatch(updateTask({ id, content: taskInputRef.current?.value.trim() || "" }))
   }
 
   return (

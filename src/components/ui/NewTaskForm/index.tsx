@@ -38,7 +38,7 @@ const NewTaskForm = () => {
           status: "active",
           content: value,
           duration: totalDuration,
-          currentDuration: 0,
+          currentDuration: totalDuration,
         })
       )
       setValue("")

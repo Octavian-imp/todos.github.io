@@ -28,8 +28,8 @@ const taskSlice = createSlice({
         return task.id === action.payload
           ? {
               ...task,
-              currentDuration: task.currentDuration + second,
-              status: task.duration === task.currentDuration ? "completed" : "active",
+              currentDuration: task.currentDuration - second,
+              status: task.currentDuration === 0 ? "completed" : "active",
             }
           : task
       })
@@ -41,9 +41,6 @@ const taskSlice = createSlice({
     },
     remove(state, action: { payload: string }) {
       return state.filter((task) => task.id !== action.payload)
-    },
-    editValue(state, action: { payload: { id: string; value: string } }) {
-      return state.map((task) => (task.id === action.payload.id ? { ...task, content: action.payload.value } : task))
     },
     setIntervalRef(state, action: { payload: { id: string; intervalRef: NodeJS.Timeout | undefined } }) {
       return state.map((task) =>
@@ -58,8 +55,8 @@ const taskSlice = createSlice({
     clearCompleted(state) {
       return state.filter((task) => task.status !== "completed")
     },
-    changeStatus(state, action: { payload: { id: string; status: TaskStatus } }) {
-      return state.map((task) => (task.id === action.payload.id ? { ...task, status: action.payload.status } : task))
+    update(state, action: { payload: { id: string } & Partial<Omit<Task, "id">> }) {
+      return state.map((task) => (task.id === action.payload.id ? { ...task, ...action.payload } : task))
     },
   },
 })
@@ -67,13 +64,12 @@ const taskSlice = createSlice({
 export const {
   add: addTask,
   addTime: addTimeTask,
-  editValue: editTask,
   stop: stopTask,
   remove: removeTask,
   setIntervalRef: setIntervalTaskRef,
   setTime: setTimeTask,
   clearCompleted: clearCompletedTasks,
-  changeStatus: changeTaskStatus,
+  update: updateTask,
 } = taskSlice.actions
 
 export default taskSlice.reducer

@@ -5,7 +5,7 @@ const tasks: Array<Omit<Task, "id">> = [
     status: "active",
     createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
-    currentDuration: 0,
+    currentDuration: 60_000,
     duration: 60_000,
   },
   {
@@ -13,7 +13,7 @@ const tasks: Array<Omit<Task, "id">> = [
     createdAt: new Date(2024, 1, 1, 1, 1, 1).getTime(),
     content: "Test task",
     duration: 6000,
-    currentDuration: 0,
+    currentDuration: 6000,
   },
   {
     status: "completed",
